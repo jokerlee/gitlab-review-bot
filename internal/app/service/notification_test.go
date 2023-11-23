@@ -160,7 +160,7 @@ func TestNotificationsService(t *testing.T) {
 
 	svc, svcErr := service.New(repository, nil, map[ds.PolicyName]service.Policy{
 		"test_policy": policy,
-	}, nil)
+	}, nil, nil)
 	require.NoError(t, svcErr, "service.New() failed")
 
 	var (

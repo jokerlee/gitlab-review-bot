@@ -4,7 +4,6 @@ package service
 import (
 	"context"
 	"github.com/rs/zerolog/log"
-	"github.com/sashabaranov/go-openai"
 	"time"
 
 	"github.com/pkg/errors"
@@ -32,6 +31,10 @@ type GitlabClient interface {
 	GetMergeRequestDiff(projectID int, iid int) (string, error)
 }
 
+type OpenAIClient interface {
+	GenerateAICodeReviewComment(diff string) (string, error)
+}
+
 type SlackClient interface {
 	worker.SlackClient
 	Subscribe() (chan ds.UserEvent, error)
@@ -55,7 +58,7 @@ type Service struct {
 	r        Repository
 	gitlab   GitlabClient
 	slack    SlackClient
-	openai   *openai.Client // FIXME: change implement to interface
+	openai   OpenAIClient
 	teams    []*ds.Team
 	policies map[ds.PolicyName]Policy
 	cron     *cron.Cron
@@ -63,7 +66,7 @@ type Service struct {
 	workers []Worker
 }
 
-func New(r Repository, g GitlabClient, p map[ds.PolicyName]Policy, slack SlackClient, openai *openai.Client) (*Service, error) {
+func New(r Repository, g GitlabClient, p map[ds.PolicyName]Policy, slack SlackClient, openai OpenAIClient) (*Service, error) {
 	svc := &Service{
 		r:        r,
 		gitlab:   g,

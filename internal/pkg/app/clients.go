@@ -2,11 +2,8 @@ package app
 
 import (
 	"github.com/pkg/errors"
-	"github.com/sashabaranov/go-openai"
-	"net/http"
-	"net/url"
-
 	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/gitlab"
+	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/openai"
 	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/slack"
 )
 
@@ -23,16 +20,6 @@ func (a *App) initClients() error {
 		return errors.Wrap(err, "failed to init slack client")
 	}
 
-	config := openai.DefaultConfig(a.cfg.OpenAIToken)
-	if len(a.cfg.OpenAIProxyUrl) != 0 {
-		proxyUrl, _ := url.Parse(a.cfg.OpenAIProxyUrl)
-		config.HTTPClient = &http.Client{
-			Transport: &http.Transport{
-				Proxy: http.ProxyURL(proxyUrl),
-			},
-		}
-	}
-	a.openaiClient = openai.NewClientWithConfig(config)
-
+	a.openaiClient, err = openai.New(a.ctx, a.cfg.OpenAIToken, a.cfg.OpenAIProxyUrl)
 	return nil
 }

@@ -2,7 +2,7 @@ package app
 
 import (
 	"context"
-	"github.com/sashabaranov/go-openai"
+	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/openai"
 	"os"
 	"os/signal"
 	"syscall"
