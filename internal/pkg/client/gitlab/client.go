@@ -16,8 +16,8 @@ type Client struct {
 	rl     ratelimit.Limiter
 }
 
-func New(rootCtx context.Context, token string) (*Client, error) {
-	glClient, err := gitlab.NewClient(token)
+func New(rootCtx context.Context, serverUrl string, token string) (*Client, error) {
+	glClient, err := gitlab.NewClient(token, gitlab.WithBaseURL(serverUrl))
 	if err != nil {
 		return nil, errors.Wrap(err, "error creating gitlab client")
 	}

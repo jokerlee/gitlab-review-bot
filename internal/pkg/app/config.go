@@ -12,6 +12,9 @@ import (
 type Config struct {
 	HumanReadableLog bool   `config:"human_readable_log"`
 	GitlabToken      string `config:"gitlab_token"`
+	GitlabServerUrl  string `config:"gitlab_server_url"`
+	OpenAIToken      string `config:"openai_token"`
+	OpenAIProxyUrl   string `config:"openai_proxy_url"`
 	SlackBotToken    string `config:"slack_bot_token"`
 	SlackAppToken    string `config:"slack_app_token"`
 

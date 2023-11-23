@@ -3,6 +3,8 @@ package service
 
 import (
 	"context"
+	"github.com/rs/zerolog/log"
+	"github.com/sashabaranov/go-openai"
 	"time"
 
 	"github.com/pkg/errors"
@@ -26,6 +28,8 @@ type Repository interface {
 type GitlabClient interface {
 	MergeRequestsByProject(projectID int, createdAfter time.Time) ([]*ds.MergeRequest, error)
 	MergeRequestApproves(projectID int, iid int) ([]*ds.BasicUser, error)
+	AddCommentToMergeRequests(projectID int, iid int, comment string) error
+	GetMergeRequestDiff(projectID int, iid int) (string, error)
 }
 
 type SlackClient interface {
@@ -51,6 +55,7 @@ type Service struct {
 	r        Repository
 	gitlab   GitlabClient
 	slack    SlackClient
+	openai   *openai.Client // FIXME: change implement to interface
 	teams    []*ds.Team
 	policies map[ds.PolicyName]Policy
 	cron     *cron.Cron
@@ -58,11 +63,12 @@ type Service struct {
 	workers []Worker
 }
 
-func New(r Repository, g GitlabClient, p map[ds.PolicyName]Policy, slack SlackClient) (*Service, error) {
+func New(r Repository, g GitlabClient, p map[ds.PolicyName]Policy, slack SlackClient, openai *openai.Client) (*Service, error) {
 	svc := &Service{
 		r:        r,
 		gitlab:   g,
 		slack:    slack,
+		openai:   openai,
 		teams:    nil,
 		policies: p,
 		cron:     nil,
@@ -126,7 +132,12 @@ func (s *Service) SubscribeOnProjects(pullPeriod time.Duration) error {
 		return err
 	}
 
+	if len(projects) == 0 {
+		log.Warn().Msg("no project found")
+	}
+
 	for _, project := range projects {
+		log.Info().Str("project_name", project.Name).Msg("init project watcher of")
 		var wrk Worker
 
 		wrk, err = worker.NewGitLabPuller(pullPeriod, project.CreatedAt, s.gitlab, s.mergeRequestsHandler, project.ID)
