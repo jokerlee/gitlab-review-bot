@@ -20,6 +20,7 @@ type Repository struct {
 	teams          *mongo.Collection
 	projects       *mongo.Collection
 	mergeRequests  *mongo.Collection
+	commits        *mongo.Collection
 	policyMetadata *mongo.Collection
 }
 
@@ -32,6 +33,7 @@ func New(rootCtx context.Context, conn *mongo.Client, databaseName string) (*Rep
 		teams:          database.Collection("teams"),
 		projects:       database.Collection("projects"),
 		mergeRequests:  database.Collection("merge_requests"),
+		commits:        database.Collection("commits"),
 		policyMetadata: database.Collection("policy_metadata"),
 	}
 
@@ -60,6 +62,21 @@ func (r *Repository) createIndexes() error {
 		})
 	if err != nil {
 		return errors.Wrap(err, "failed to create merge_requests indexes")
+	}
+
+	_, err = r.commits.Indexes().CreateMany(ctx,
+		[]mongo.IndexModel{
+			{
+				Keys:    bson.D{{"project_id", 1}},
+				Options: options.Index(),
+			},
+			{
+				Keys:    bson.D{{"id", 1}},
+				Options: options.Index().SetUnique(true),
+			},
+		})
+	if err != nil {
+		return errors.Wrap(err, "failed to create commit indexes")
 	}
 
 	_, err = r.policyMetadata.Indexes().CreateMany(context.Background(),

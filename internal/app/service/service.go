@@ -21,14 +21,20 @@ type Repository interface {
 	MergeRequestsByAuthor(authorID []int) ([]*ds.MergeRequest, error)
 	MergeRequestsByReviewer(reviewerID []int) ([]*ds.MergeRequest, error)
 	UpsertMergeRequest(mr *ds.MergeRequest) error
+	CommitByID(id string) (*ds.Commit, error)
+	UpsertCommit(commit *ds.Commit) error
 	UserBySlackID(slackID string) (*ds.User, *ds.Team, error)
 }
 
 type GitlabClient interface {
 	MergeRequestsByProject(projectID int, createdAfter time.Time) ([]*ds.MergeRequest, error)
 	MergeRequestApproves(projectID int, iid int) ([]*ds.BasicUser, error)
-	AddCommentToMergeRequests(projectID int, iid int, comment string) error
 	GetMergeRequestDiff(projectID int, iid int) (string, error)
+	AddCommentToMergeRequests(projectID int, iid int, comment string) error
+
+	CommitsByProject(projectID int, createdAfter time.Time) ([]*ds.Commit, error)
+	GetCommitDiff(projectID int, commitID string) (string, error)
+	AddCommentToCommit(projectID int, commitID string, comment string) error
 }
 
 type OpenAIClient interface {
@@ -143,7 +149,7 @@ func (s *Service) SubscribeOnProjects(pullPeriod time.Duration) error {
 		log.Info().Str("project_name", project.Name).Msg("init project watcher of")
 		var wrk Worker
 
-		wrk, err = worker.NewGitLabPuller(pullPeriod, project.CreatedAt, s.gitlab, s.mergeRequestsHandler, project.ID)
+		wrk, err = worker.NewGitLabPuller(pullPeriod, project.CreatedAt, s.gitlab, s.mergeRequestsHandler, s.commitsHandler, project.ID)
 		if err != nil {
 			return errors.Wrap(err, "failed to create gitlab puller")
 		}

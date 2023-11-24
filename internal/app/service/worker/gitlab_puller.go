@@ -14,27 +14,31 @@ const (
 
 type GitlabClient interface {
 	MergeRequestsByProject(projectID int, createdAfter time.Time) ([]*ds.MergeRequest, error)
+	CommitsByProject(projectID int, createdAfter time.Time) ([]*ds.Commit, error)
 }
 
 type MergeRequestHandler func(mr *ds.MergeRequest) error
+type CommitHandler func(mr *ds.Commit) error
 
 type GitLabPuller struct {
-	gitlab     GitlabClient
-	handler    MergeRequestHandler
-	projectID  int
-	pullPeriod time.Duration
-	close      chan struct{}
-	after      time.Time
+	gitlab        GitlabClient
+	mrHandler     MergeRequestHandler
+	commitHandler CommitHandler
+	projectID     int
+	pullPeriod    time.Duration
+	close         chan struct{}
+	after         time.Time
 }
 
-func NewGitLabPuller(pullPeriod time.Duration, after time.Time, gitlab GitlabClient, handler MergeRequestHandler, projectID int) (*GitLabPuller, error) {
+func NewGitLabPuller(pullPeriod time.Duration, after time.Time, gitlab GitlabClient, mrHandler MergeRequestHandler, commitHandler CommitHandler, projectID int) (*GitLabPuller, error) {
 	worker := &GitLabPuller{
-		gitlab:     gitlab,
-		handler:    handler,
-		projectID:  projectID,
-		pullPeriod: pullPeriod,
-		after:      after,
-		close:      make(chan struct{}),
+		gitlab:        gitlab,
+		mrHandler:     mrHandler,
+		commitHandler: commitHandler,
+		projectID:     projectID,
+		pullPeriod:    pullPeriod,
+		after:         after,
+		close:         make(chan struct{}),
 	}
 
 	return worker, nil
@@ -61,6 +65,11 @@ func (g *GitLabPuller) Run() {
 }
 
 func (g *GitLabPuller) pullAndHandle() {
+	g.pullAndHandleMergeRequests()
+	g.pullAndHandleCommits()
+}
+
+func (g *GitLabPuller) pullAndHandleMergeRequests() {
 	l := log.With().
 		Str("worker", gitlabPullerWorkerName).
 		Int("project_id", g.projectID).
@@ -78,13 +87,40 @@ func (g *GitLabPuller) pullAndHandle() {
 		Msg("pulled merge requests successfully")
 
 	for _, mr := range mrs {
-		err = g.handler(mr)
+		err = g.mrHandler(mr)
 		if err != nil {
 			l.Error().Err(err).Msg("failed to handle merge requests")
 		}
 	}
 
 	log.Info().Int("project_id", g.projectID).Msg("merge requests handled")
+}
+
+func (g *GitLabPuller) pullAndHandleCommits() {
+	l := log.With().
+		Str("worker", gitlabPullerWorkerName).
+		Int("project_id", g.projectID).
+		Logger()
+
+	l.Info().Msg("pulling commits")
+
+	commits, err := g.gitlab.CommitsByProject(g.projectID, g.after)
+	if err != nil {
+		l.Error().Err(err).Msg("failed to fetch merge requests")
+	}
+
+	l.Info().Int("project_id", g.projectID).
+		Int("count", len(commits)).
+		Msg("pulled commits successfully")
+
+	for _, commit := range commits {
+		err = g.commitHandler(commit)
+		if err != nil {
+			l.Error().Err(err).Msg("failed to handle commits")
+		}
+	}
+
+	log.Info().Int("project_id", g.projectID).Msg("commits handled")
 }
 
 func (g *GitLabPuller) Close() {
