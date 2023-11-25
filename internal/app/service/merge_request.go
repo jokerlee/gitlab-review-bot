@@ -40,13 +40,14 @@ func (s *Service) mergeRequestsHandler(mr *ds.MergeRequest) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to get diff of merge request")
 	}
-	log.Info().Msg(mr.Title + "\n" + mr.Description + "\n")
+	log.Info().Msgf("generating review comment for: %s", mr.Title)
 
-	reviewComment, err := s.openai.GenerateAICodeReviewComment(mr.Title + "\n" + mr.Description + "\n" + diff)
+	message := ComposeMessageForAI(mr.Title, mr.Description, diff)
+	reviewComment, err := s.openai.GenerateAICodeReviewComment(message)
 	if err != nil {
 		return errors.Wrap(err, "call openai failed")
 	}
-	log.Info().Msg(reviewComment)
+	log.Debug().Msg(reviewComment)
 
 	err = s.gitlab.AddCommentToMergeRequests(mr.ProjectID, mr.IID, reviewComment)
 	if err != nil {

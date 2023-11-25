@@ -20,6 +20,13 @@ type Commit struct {
 	ProjectID      int               `bson:"project_id"`
 	Trailers       map[string]string `bson:"trailers"`
 	WebURL         string            `bson:"web_url"`
+	Stats          *CommitStats      `bson:"stats"`
+}
+
+type CommitStats struct {
+	Additions int `bson:"additions"`
+	Deletions int `bson:"deletions"`
+	Total     int `bson:"total"`
 }
 
 // IsEqual checks if two merge requests are equal (according to basic information)

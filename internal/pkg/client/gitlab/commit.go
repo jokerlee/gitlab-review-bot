@@ -10,7 +10,7 @@ import (
 
 func (c *Client) CommitsByProject(projectID int, createdAfter time.Time) ([]*ds.Commit, error) {
 	allCommits := make([]*ds.Commit, 0, perPage)
-
+	withStats := true
 	for i := 1; i <= maxPages; i++ {
 		log.Trace().Msg("fetching commits")
 		c.rl.Take()
@@ -18,6 +18,7 @@ func (c *Client) CommitsByProject(projectID int, createdAfter time.Time) ([]*ds.
 		commits, resp, err := c.gitlab.Commits.ListCommits(
 			projectID,
 			&gitlab.ListCommitsOptions{
+				WithStats: &withStats,
 				ListOptions: gitlab.ListOptions{
 					Page:    i,
 					PerPage: perPage,
@@ -41,6 +42,15 @@ func (c *Client) CommitsByProject(projectID int, createdAfter time.Time) ([]*ds.
 }
 
 func commitConvert(req *gitlab.Commit, projectID int) *ds.Commit {
+	var stats *ds.CommitStats
+	if req.Stats != nil {
+		stats = &ds.CommitStats{
+			Additions: req.Stats.Additions,
+			Deletions: req.Stats.Deletions,
+			Total:     req.Stats.Total,
+		}
+	}
+
 	return &ds.Commit{
 		ID:             req.ID,
 		ShortID:        req.ShortID,
@@ -57,5 +67,6 @@ func commitConvert(req *gitlab.Commit, projectID int) *ds.Commit {
 		ProjectID:      projectID,
 		Trailers:       req.Trailers,
 		WebURL:         req.WebURL,
+		Stats:          stats,
 	}
 }

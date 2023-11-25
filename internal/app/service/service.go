@@ -26,14 +26,23 @@ type Repository interface {
 	UserBySlackID(slackID string) (*ds.User, *ds.Team, error)
 }
 
+type Diff struct {
+	Content     string
+	NewPath     string
+	OldPath     string
+	NewFile     bool
+	RenamedFile bool
+	DeletedFile bool
+}
+
 type GitlabClient interface {
 	MergeRequestsByProject(projectID int, createdAfter time.Time) ([]*ds.MergeRequest, error)
 	MergeRequestApproves(projectID int, iid int) ([]*ds.BasicUser, error)
-	GetMergeRequestDiff(projectID int, iid int) (string, error)
+	GetMergeRequestDiff(projectID int, iid int) ([]*Diff, error)
 	AddCommentToMergeRequests(projectID int, iid int, comment string) error
 
 	CommitsByProject(projectID int, createdAfter time.Time) ([]*ds.Commit, error)
-	GetCommitDiff(projectID int, commitID string) (string, error)
+	GetCommitDiff(projectID int, commitID string) ([]*Diff, error)
 	AddCommentToCommit(projectID int, commitID string, comment string) error
 }
 
