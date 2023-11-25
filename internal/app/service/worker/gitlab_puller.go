@@ -106,7 +106,7 @@ func (g *GitLabPuller) pullAndHandleCommits() {
 
 	commits, err := g.gitlab.CommitsByProject(g.projectID, g.after)
 	if err != nil {
-		l.Error().Err(err).Msg("failed to fetch merge requests")
+		l.Error().Err(err).Msg("failed to fetch commits")
 	}
 
 	l.Info().Int("project_id", g.projectID).

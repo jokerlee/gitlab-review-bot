@@ -32,7 +32,7 @@ func (c *Client) CommitsByProject(projectID int, createdAfter time.Time) ([]*ds.
 			allCommits = append(allCommits, commitConvert(commit, projectID))
 		}
 
-		if resp.TotalPages <= i {
+		if resp.NextPage == 0 {
 			break
 		}
 	}

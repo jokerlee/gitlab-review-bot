@@ -7,9 +7,36 @@ import (
 	"time"
 )
 
-const AssistantName = "Code Mentor"
+const AssistantName = "Code Mentor II"
+const Instructions = "The GPT is designed to act as a code reviewer. " +
+	"Its primary function is to assist users by identifying issues in their code. " +
+	"It focuses on pinpointing naming inconsistencies, coding style breaches, concurrency pitfalls, " +
+	"structural problems, duplicated code, cyclomatic complexity issues, logic errors, " +
+	"and other code smells that could hinder maintainability and performance. " +
+	"Do not repeat what the code diff is doing, just give modification advice"
 
 func (c *Client) GenerateAICodeReviewComment(diff string) (string, error) {
+	return c.generateAICodeReviewCommentByAssistant(diff)
+}
+
+func (c *Client) generateAICodeReviewCommentByChat(diff string) (string, error) {
+	diff = Instructions + "\n Please do code review for below code change: \n" + truncate(diff, 16000)
+
+	response, err := c.openai.CreateChatCompletion(c.ctx, openai.ChatCompletionRequest{
+		Model: openai.GPT4,
+		Messages: []openai.ChatCompletionMessage{{
+			Role:    openai.ChatMessageRoleUser,
+			Content: diff,
+		}},
+	})
+	if err != nil {
+		return "", errors.Wrap(err, "failed to CreateChatCompletion from openai")
+	}
+
+	return response.Choices[0].Message.Content, nil
+}
+
+func (c *Client) generateAICodeReviewCommentByAssistant(diff string) (string, error) {
 	diff = truncate(diff, 16000)
 
 	assistant, err := c.retrieveAssistant()
@@ -27,7 +54,7 @@ func (c *Client) GenerateAICodeReviewComment(diff string) (string, error) {
 		return "", errors.Wrap(err, "failed to CreateThread from openai")
 	}
 
-	model := openai.GPT3Dot5Turbo16K
+	model := openai.GPT4TurboPreview
 	instruction := "please review this code diff, give modification advice"
 	run, err := c.openai.CreateRun(c.ctx, thread.ID, openai.RunRequest{
 		AssistantID:  assistant.ID,
@@ -67,11 +94,7 @@ func (c *Client) retrieveAssistant() (assistant openai.Assistant, err error) {
 func (c *Client) createAssistant() (assistant openai.Assistant, err error) {
 	name := AssistantName
 	description := "Code Review Master"
-	instructions := "The GPT is designed to act as a code reviewer. " +
-		"Its primary function is to assist users by identifying issues in their code. " +
-		"It focuses on pinpointing naming inconsistencies, coding style breaches, concurrency pitfalls, " +
-		"structural problems, duplicated code, cyclomatic complexity issues, logic errors, " +
-		"and other code smells that could hinder maintainability and performance."
+	instructions := Instructions
 
 	return c.openai.CreateAssistant(c.ctx, openai.AssistantRequest{
 		Model:        openai.GPT3Dot5Turbo16K,
