@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 )
 
 func (r *Repository) CommitByID(id string) (*ds.Commit, error) {

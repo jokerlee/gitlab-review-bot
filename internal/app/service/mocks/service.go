@@ -9,7 +9,7 @@ import (
 	time "time"
 
 	gomock "github.com/golang/mock/gomock"
-	ds "github.com/spatecon/gitlab-review-bot/internal/app/ds"
+	ds "github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 )
 
 // Repository is a mock of Repository interface.

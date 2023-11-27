@@ -1,10 +1,10 @@
 package app
 
 import (
+	"github.com/jokerlee/gitlab-review-bot/internal/pkg/client/gitlab"
+	"github.com/jokerlee/gitlab-review-bot/internal/pkg/client/openai"
+	"github.com/jokerlee/gitlab-review-bot/internal/pkg/client/slack"
 	"github.com/pkg/errors"
-	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/gitlab"
-	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/openai"
-	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/slack"
 )
 
 func (a *App) initClients() error {

@@ -3,7 +3,7 @@ package gitlab
 import (
 	"github.com/pkg/errors"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 )
 
 func (c *Client) MergeRequestApproves(projectID int, iid int) ([]*ds.BasicUser, error) {

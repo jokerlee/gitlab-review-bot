@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/repository"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/repository"
 )
 
 const appName = "gitlab-review-bot"

@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/xanzy/go-gitlab"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 )
 
 func TestMergeRequestConvert(t *testing.T) {

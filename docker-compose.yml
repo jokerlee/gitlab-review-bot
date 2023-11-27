@@ -27,7 +27,7 @@ services:
     ports:
       - "8081:8081"
   gitlab-review-bot:
-    image: spatecon/gitlab-review-bot:latest
+    image: jokerlee/gitlab-review-bot:latest
     depends_on:
       - mongo
     restart: "no"

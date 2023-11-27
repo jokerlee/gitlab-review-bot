@@ -3,8 +3,8 @@ package templating
 import (
 	"time"
 
-	en_EN "github.com/spatecon/gitlab-review-bot/pkg/templating/en-EN"
-	ru_RU "github.com/spatecon/gitlab-review-bot/pkg/templating/ru-RU"
+	en_EN "github.com/jokerlee/gitlab-review-bot/pkg/templating/en-EN"
+	ru_RU "github.com/jokerlee/gitlab-review-bot/pkg/templating/ru-RU"
 )
 
 type TimeDiff interface {

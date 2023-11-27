@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/bson"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 )
 
 func TestRepository_PolicyMetadata(t *testing.T) {

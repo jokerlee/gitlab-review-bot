@@ -16,7 +16,7 @@ import (
 	"github.com/zyedidia/generic/set"
 	"go.mongodb.org/mongo-driver/bson"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 )
 
 const (

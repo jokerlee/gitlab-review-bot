@@ -1,4 +1,4 @@
-module github.com/spatecon/gitlab-review-bot
+module github.com/jokerlee/gitlab-review-bot
 
 go 1.19
 
@@ -13,7 +13,6 @@ require (
 	github.com/samber/lo v1.38.1
 	github.com/sashabaranov/go-openai v1.17.8
 	github.com/slack-go/slack v0.12.3
-	github.com/spatecon/gitlab-review-bot/pkg/motivational v0.0.0-00010101000000-000000000000
 	github.com/stretchr/testify v1.8.4
 	github.com/xanzy/go-gitlab v0.93.1
 	github.com/zyedidia/generic v1.2.1
@@ -35,6 +34,7 @@ require (
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.2 // indirect
 	github.com/imdario/mergo v0.3.15 // indirect
+	github.com/jokerlee/gitlab-review-bot/pkg/motivational v0.0.0-00010101000000-000000000000 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
@@ -62,4 +62,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/spatecon/gitlab-review-bot/pkg/motivational => ./pkg/motivational
+replace github.com/jokerlee/gitlab-review-bot/pkg/motivational => ./pkg/motivational

@@ -1,9 +1,9 @@
 package service
 
 import (
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
 )
 
 func (s *Service) commitsHandler(commit *ds.Commit) error {

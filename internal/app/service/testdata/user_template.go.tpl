@@ -1,4 +1,4 @@
-{{- /*gotype: github.com/spatecon/gitlab-review-bot/internal/app/ds.UserNotification*/ -}}
+{{- /*gotype: github.com/jokerlee/gitlab-review-bot/internal/app/ds.UserNotification*/ -}}
 Привет, {{.User.BasicUser.Name}}!
 
 {{ if len .ReviewerMR -}}

@@ -1,9 +1,9 @@
 package gitlab
 
 import (
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
 	"github.com/xanzy/go-gitlab"
 	"time"
 )

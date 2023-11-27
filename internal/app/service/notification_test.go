@@ -7,10 +7,10 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
-	"github.com/spatecon/gitlab-review-bot/internal/app/service"
-	"github.com/spatecon/gitlab-review-bot/internal/app/service/mocks"
-	"github.com/spatecon/gitlab-review-bot/pkg/testloggger"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/service"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/service/mocks"
+	"github.com/jokerlee/gitlab-review-bot/pkg/testloggger"
 )
 
 var (

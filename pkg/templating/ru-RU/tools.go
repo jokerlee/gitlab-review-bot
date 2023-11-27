@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/spatecon/gitlab-review-bot/pkg/motivational"
+	"github.com/jokerlee/gitlab-review-bot/pkg/motivational"
 )
 
 type Tools struct {

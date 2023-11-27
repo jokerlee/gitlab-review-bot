@@ -9,8 +9,8 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/samber/lo"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
-	"github.com/spatecon/gitlab-review-bot/pkg/templating"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/pkg/templating"
 )
 
 func (s *Service) GetAuthoredReviewedMRs(

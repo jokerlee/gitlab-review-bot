@@ -3,10 +3,10 @@ package app
 import (
 	"github.com/pkg/errors"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
-	rd "github.com/spatecon/gitlab-review-bot/internal/app/policy/reinventing-democracy"
-	tlar "github.com/spatecon/gitlab-review-bot/internal/app/policy/team-lead-always-right"
-	"github.com/spatecon/gitlab-review-bot/internal/app/service"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
+	rd "github.com/jokerlee/gitlab-review-bot/internal/app/policy/reinventing-democracy"
+	tlar "github.com/jokerlee/gitlab-review-bot/internal/app/policy/team-lead-always-right"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/service"
 )
 
 func (a *App) initPolicies() error {

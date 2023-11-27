@@ -9,6 +9,6 @@ COPY pkg ./pkg
 RUN go mod download
 
 COPY . .
-RUN go build -o /gitlab-review-bot github.com/spatecon/gitlab-review-bot/cmd/gitlab-review-bot
+RUN go build -o /gitlab-review-bot github.com/jokerlee/gitlab-review-bot/cmd/gitlab-review-bot
 
 CMD ["/gitlab-review-bot"]

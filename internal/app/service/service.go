@@ -9,8 +9,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/robfig/cron/v3"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
-	"github.com/spatecon/gitlab-review-bot/internal/app/service/worker"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/service/worker"
 )
 
 type Repository interface {

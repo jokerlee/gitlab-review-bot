@@ -9,7 +9,7 @@ import (
 	"github.com/slack-go/slack/socketmode"
 	"go.uber.org/ratelimit"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
 )
 
 const defaultTimeout = 5 * time.Second

@@ -2,7 +2,7 @@ package app
 
 import (
 	"context"
-	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/openai"
+	"github.com/jokerlee/gitlab-review-bot/internal/pkg/client/openai"
 	"os"
 	"os/signal"
 	"syscall"
@@ -11,11 +11,11 @@ import (
 	"github.com/rs/zerolog"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/ds"
-	"github.com/spatecon/gitlab-review-bot/internal/app/repository"
-	"github.com/spatecon/gitlab-review-bot/internal/app/service"
-	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/gitlab"
-	"github.com/spatecon/gitlab-review-bot/internal/pkg/client/slack"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/ds"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/repository"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/service"
+	"github.com/jokerlee/gitlab-review-bot/internal/pkg/client/gitlab"
+	"github.com/jokerlee/gitlab-review-bot/internal/pkg/client/slack"
 )
 
 type App struct {

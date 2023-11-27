@@ -6,7 +6,7 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/spatecon/gitlab-review-bot/internal/pkg/app"
+	"github.com/jokerlee/gitlab-review-bot/internal/pkg/app"
 )
 
 var (

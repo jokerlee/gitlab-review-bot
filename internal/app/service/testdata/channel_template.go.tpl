@@ -1,4 +1,4 @@
-{{- /*gotype: github.com/spatecon/gitlab-review-bot/internal/app/ds.ChannelNotification*/ -}}
+{{- /*gotype: github.com/jokerlee/gitlab-review-bot/internal/app/ds.ChannelNotification*/ -}}
 :colleagues-kollegi: Статистика по ревью :colleagues-kollegi:
 В среднем: {{.AverageCount}} MR на разработчике
 Всего: {{.TotalCount}} уникальных MR

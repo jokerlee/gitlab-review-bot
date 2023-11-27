@@ -5,8 +5,8 @@ import (
 	"github.com/robfig/cron/v3"
 	"github.com/rs/zerolog/log"
 
-	"github.com/spatecon/gitlab-review-bot/internal/app/service/worker"
-	"github.com/spatecon/gitlab-review-bot/internal/pkg/logger"
+	"github.com/jokerlee/gitlab-review-bot/internal/app/service/worker"
+	"github.com/jokerlee/gitlab-review-bot/internal/pkg/logger"
 )
 
 func (s *Service) loadTeams() (err error) {

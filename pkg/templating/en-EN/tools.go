@@ -2,11 +2,11 @@ package en_EN
 
 import (
 	"fmt"
+	"github.com/jokerlee/gitlab-review-bot/pkg/motivational"
 	"math/rand"
 	"time"
 
 	"github.com/gertd/go-pluralize"
-	"github.com/spatecon/gitlab-review-bot/pkg/motivational"
 )
 
 type Tools struct {

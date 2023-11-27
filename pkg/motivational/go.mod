@@ -1,3 +1,3 @@
-module github.com/spatecon/gitlab-review-bot/pkg/motivational
+module github.com/jokerlee/gitlab-review-bot/pkg/motivational
 
 go 1.11
